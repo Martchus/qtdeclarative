@@ -2,6 +2,10 @@ option(host_build)
 TARGET     = QtQmlDevTools
 QT         = core-private
 CONFIG    += minimal_syncqt internal_module qmldevtools_build
+win32:!contains(CONFIG, static) {
+    CONFIG += shared
+    CONFIG -= static staticlib
+}
 
 MODULE_INCNAME = QtQml
 
