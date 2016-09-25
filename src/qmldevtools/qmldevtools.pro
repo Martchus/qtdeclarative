@@ -1,7 +1,7 @@
 option(host_build)
 TARGET     = QtQmlDevTools
 QT         = core-private
-CONFIG += static internal_module qmldevtools_build
+CONFIG += internal_module qmldevtools_build
 
 # Don't use pch because the auto-generated header refers to QtBootstrap,
 # which doesn't exist
