@@ -56,9 +56,9 @@
 #  define QT_QML_BEGIN_NAMESPACE
 #  define QT_QML_END_NAMESPACE
 
-#  ifdef QDECLARATIVEJS_BUILD_DIR
+#  if defined(QDECLARATIVEJS_BUILD_DIR) && !defined(QT_STATIC)
 #    define QML_PARSER_EXPORT Q_DECL_EXPORT
-#  elif QML_BUILD_STATIC_LIB
+#  elif defined(QML_BUILD_STATIC_LIB) || defined(QT_STATIC)
 #    define QML_PARSER_EXPORT
 #  else
 #    define QML_PARSER_EXPORT Q_DECL_IMPORT
@@ -68,7 +68,7 @@
 #  define QT_QML_BEGIN_NAMESPACE QT_BEGIN_NAMESPACE
 #  define QT_QML_END_NAMESPACE QT_END_NAMESPACE
 #  ifndef QT_STATIC
-#    if defined(QT_BUILD_QMLDEVTOOLS_LIB) || defined(QT_QMLDEVTOOLS_LIB)
+#    if defined(QT_BUILD_QMLDEVTOOLS_LIB) || defined(QT_QMLDEVTOOLS_LIB) || defined(QT_STATIC)
        // QmlDevTools is a static library
 #      define QML_PARSER_EXPORT
 #    elif defined(QT_BUILD_QML_LIB)
