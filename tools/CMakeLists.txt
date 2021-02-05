@@ -36,7 +36,9 @@ if(NOT (ANDROID OR WASM OR IOS OR VISIONOS OR rtems))
         endif()
         if(QT_BUILD_SHARED_LIBS AND TARGET Qt::Quick)
             add_subdirectory(qmlscene)
-            add_subdirectory(qmltime)
+            if(NOT CMAKE_CROSSCOMPILING)
+                 add_subdirectory(qmltime)
+            endif()
         endif()
         if(QT_BUILD_SHARED_LIBS
             AND QT_FEATURE_process
