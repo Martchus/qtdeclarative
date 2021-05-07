@@ -39,6 +39,7 @@
 
 #include "qquickwidget.h"
 #include "qquickwidget_p.h"
+#include "qaccessiblequickwidgetfactory_p.h"
 
 #include "private/qquickwindow_p.h"
 #include "private/qquickitem_p.h"
@@ -75,9 +76,16 @@
 
 QT_BEGIN_NAMESPACE
 
+QQuickWidgetOffscreenWindow::QQuickWidgetOffscreenWindow(QQuickWindowPrivate &dd, QQuickRenderControl *control)
+:QQuickWindow(dd, control)
+{
+    setTitle(QString::fromLatin1("Offscreen"));
+    setObjectName(QString::fromLatin1("QQuickOffScreenWindow"));
+}
+
 // override setVisble to prevent accidental offscreen window being created
 // by base class.
-class QQuickOffcreenWindowPrivate: public QQuickWindowPrivate {
+class QQuickWidgetOffscreenWindowPrivate: public QQuickWindowPrivate {
 public:
     void setVisible(bool visible) override {
         Q_Q(QWindow);
@@ -105,10 +113,8 @@ void QQuickWidgetPrivate::init(QQmlEngine* e)
     Q_Q(QQuickWidget);
 
     renderControl = new QQuickWidgetRenderControl(q);
-    offscreenWindow = new QQuickWindow(*new QQuickOffcreenWindowPrivate(),renderControl);
+    offscreenWindow = new QQuickWidgetOffscreenWindow(*new QQuickWidgetOffscreenWindowPrivate(), renderControl);
     offscreenWindow->setScreen(q->screen());
-    offscreenWindow->setTitle(QString::fromLatin1("Offscreen"));
-    offscreenWindow->setObjectName(QString::fromLatin1("QQuickOffScreenWindow"));
     // Do not call create() on offscreenWindow.
 
     // Check if the Software Adaptation is being used
@@ -139,6 +145,10 @@ void QQuickWidgetPrivate::init(QQmlEngine* e)
     QWidget::connect(offscreenWindow, &QQuickWindow::focusObjectChanged, q, &QQuickWidget::propagateFocusObjectChanged);
     QObject::connect(renderControl, SIGNAL(renderRequested()), q, SLOT(triggerUpdate()));
     QObject::connect(renderControl, SIGNAL(sceneChanged()), q, SLOT(triggerUpdate()));
+
+#if QT_CONFIG(accessibility)
+    QAccessible::installFactory(&qAccessibleQuickWidgetFactory);
+#endif
 }
 
 void QQuickWidgetPrivate::ensureEngine() const
