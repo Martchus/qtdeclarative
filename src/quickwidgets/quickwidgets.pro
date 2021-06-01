@@ -8,7 +8,7 @@ HEADERS += \
     qquickwidget.h \
     qquickwidget_p.h \
     qtquickwidgetsglobal.h \
-    qaccessiblequickwidget.h \
+    qaccessiblequickwidget_p.h \
     qaccessiblequickwidgetfactory_p.h
 
 SOURCES += \
