@@ -27,8 +27,12 @@
 ****************************************************************************/
 
 #include <QtTest/qtest.h>
+#include <QtCore/QConcatenateTablesProxyModel>
+#include <QtGui/QStandardItemModel>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQmlModels/private/qqmldelegatemodel_p.h>
+#include <QtQuick/qquickview.h>
+#include <QtQuick/qquickitem.h>
 
 #include "../../shared/util.h"
 
@@ -42,6 +46,7 @@ public:
 private slots:
     void valueWithoutCallingObjectFirst_data();
     void valueWithoutCallingObjectFirst();
+    void redrawUponColumnChange();
 };
 
 class AbstractItemModel : public QAbstractItemModel
@@ -132,6 +137,30 @@ void tst_QQmlDelegateModel::valueWithoutCallingObjectFirst()
     QQmlDelegateModel *model = qobject_cast<QQmlDelegateModel*>(root.data());
     QVERIFY(model);
     QCOMPARE(model->variantValue(index, role), expectedValue);
+}
+
+void tst_QQmlDelegateModel::redrawUponColumnChange()
+{
+    QStandardItemModel m1;
+    m1.appendRow({
+            new QStandardItem("Banana"),
+            new QStandardItem("Coconut"),
+    });
+
+    QQuickView view(testFileUrl("redrawUponColumnChange.qml"));
+    QCOMPARE(view.status(), QQuickView::Ready);
+    view.show();
+    QQuickItem *root = view.rootObject();
+    root->setProperty("model", QVariant::fromValue<QObject *>(&m1));
+
+    QObject *item = root->property("currentItem").value<QObject *>();
+    QVERIFY(item);
+    QCOMPARE(item->property("text").toString(), "Banana");
+
+    QVERIFY(root);
+    m1.removeColumn(0);
+
+    QCOMPARE(item->property("text").toString(), "Coconut");
 }
 
 QTEST_MAIN(tst_QQmlDelegateModel)
