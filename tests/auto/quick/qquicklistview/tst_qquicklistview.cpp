@@ -10201,20 +10201,6 @@ void tst_QQuickListView::dragDelegateWithMouseArea_data()
     }
 }
 
-void tst_QQuickListView::isCurrentItem_DelegateModel()
-{
-    QScopedPointer<QQuickView> window(createView());
-    window->setSource(testFileUrl("qtbug86744.qml"));
-    window->resize(640, 480);
-    window->show();
-    QVERIFY(QTest::qWaitForWindowExposed(window.data()));
-
-    QQuickListView* listView = window->rootObject()->findChild<QQuickListView*>("listView");
-    QVERIFY(listView);
-    QVariant value = listView->itemAtIndex(1)->property("isCurrent");
-    QVERIFY(value.toBool() == true);
-}
-
 QTEST_MAIN(tst_QQuickListView)
 
 #include "tst_qquicklistview.moc"
