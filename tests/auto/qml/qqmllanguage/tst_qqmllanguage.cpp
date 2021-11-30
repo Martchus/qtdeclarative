@@ -337,6 +337,7 @@ private slots:
     void bareInlineComponent();
 
     void hangOnWarning();
+    void objectAsBroken();
 
     void ambiguousContainingType();
     void staticConstexprMembers();
@@ -5937,6 +5938,21 @@ void tst_qqmllanguage::bindingAliasToComponentUrl()
         QVERIFY(object);
         QCOMPARE(object->property("accessibleNormalProgress"), QVariant(1.0));
     }
+}
+
+void tst_qqmllanguage::objectAsBroken()
+{
+    QQmlEngine engine;
+    QQmlComponent c(&engine, testFileUrl("asBroken.qml"));
+    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+    QScopedPointer<QObject> o(c.create());
+    QVERIFY(!o.isNull());
+    QVariant selfAsBroken = o->property("selfAsBroken");
+    QVERIFY(selfAsBroken.isValid());
+    // QCOMPARE(selfAsBroken.metaType(), QMetaType::fromType<std::nullptr_t>());
+
+    QQmlComponent b(&engine, testFileUrl("Broken.qml"));
+    QVERIFY(b.isError());
 }
 
 QTEST_MAIN(tst_qqmllanguage)
