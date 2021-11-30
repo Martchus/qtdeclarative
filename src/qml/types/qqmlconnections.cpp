@@ -338,7 +338,7 @@ void QQmlConnections::connectSignalsToMethods()
                    && propName.at(2).isUpper()) {
             qmlWarning(this) << tr("Detected function \"%1\" in Connections element. "
                                    "This is probably intended to be a signal handler but no "
-                                   "signal of the target matches the name.").arg(propName);
+                                   "signal of the \"%2\" target matches the name.").arg(propName).arg(target->metaObject()->className());
         }
     }
 }
