@@ -62,6 +62,8 @@
 QT_BEGIN_NAMESPACE
 
 Q_DECLARE_LOGGING_CATEGORY(lcHandlerParent)
+Q_LOGGING_CATEGORY(lcWheel, "qt.quick.flickable.wheel")
+Q_LOGGING_CATEGORY(lcVel, "qt.quick.flickable.velocity")
 
 // FlickThreshold determines how far the "mouse" must have moved
 // before we perform a flick.
