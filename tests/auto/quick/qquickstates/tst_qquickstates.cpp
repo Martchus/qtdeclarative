@@ -188,6 +188,7 @@ private slots:
     void revertListMemoryLeak();
     void duplicateStateName();
     void trivialWhen();
+    void jsValueWhen();
     void noStateOsciallation();
     void parentChangeCorrectReversal();
     void revertNullObjectBinding();
@@ -1732,6 +1733,16 @@ void tst_qquickstates::trivialWhen()
 
     QQmlComponent c(&engine, testFileUrl("trivialWhen.qml"));
     QVERIFY(c.create());
+}
+
+void tst_qquickstates::jsValueWhen()
+{
+    QQmlEngine engine;
+
+    QQmlComponent c(&engine, testFileUrl("jsValueWhen.qml"));
+    QScopedPointer<QObject> root(c.create());
+    QVERIFY(root);
+    QVERIFY(root->property("works").toBool());
 }
 
 void tst_qquickstates::noStateOsciallation()
