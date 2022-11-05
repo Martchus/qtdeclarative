@@ -769,7 +769,7 @@ Qt::DropAction QQuickDragAttachedPrivate::startDrag(Qt::DropActions supportedAct
     QMimeData *mimeData = new QMimeData();
 
     for (auto it = externalMimeData.cbegin(), end = externalMimeData.cend(); it != end; ++it) {
-        if (it.value().typeId() == QMetaType::QByteArray)
+        if (static_cast<QMetaType::Type>(it.value().type()) == QMetaType::QByteArray)
             mimeData->setData(it.key(), it.value().toByteArray());
         else
             mimeData->setData(it.key(), it.value().toString().toUtf8());
