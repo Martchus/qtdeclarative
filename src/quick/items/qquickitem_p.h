@@ -472,6 +472,7 @@ public:
     bool replayingPressEvent:1;
     bool touchEnabled:1;
     bool hasCursorHandler:1;
+    quint32 inDestructor:1; // has entered ~QQuickItem
 
     enum DirtyType {
         TransformOrigin         = 0x00000001,
