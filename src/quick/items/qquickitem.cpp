@@ -6174,6 +6174,15 @@ void QQuickItemPrivate::setEffectiveEnableRecur(QQuickItem *scope, bool newEffec
     }
 
     itemChange(QQuickItem::ItemEnabledHasChanged, effectiveEnable);
+#if QT_CONFIG(accessibility)
+    if (isAccessible) {
+        QAccessible::State changedState;
+        changedState.disabled = true;
+        changedState.focusable = true;
+        QAccessibleStateChangeEvent ev(q, changedState);
+        QAccessible::updateAccessibility(&ev);
+    }
+#endif
     emit q->enabledChanged();
 }
 
