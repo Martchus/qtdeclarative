@@ -839,11 +839,9 @@ void QSGTextMaskMaterial::populate(const QPointF &p,
     bool supportsSubPixelPositions = fontD->fontEngine->supportsSubPixelPositions();
     for (int i=0; i<glyphIndexes.size(); ++i) {
          QPointF glyphPosition = glyphPositions.at(i) + position;
-         QFixedPoint fixedPointPosition = fixedPointPositions.at(i);
-
          QFixed subPixelPosition;
          if (supportsSubPixelPositions)
-             subPixelPosition = fontD->fontEngine->subPixelPositionForX(QFixed::fromReal(fixedPointPosition.x.toReal() * glyphCacheScaleX));
+             subPixelPosition = fontD->fontEngine->subPixelPositionForX(QFixed::fromReal(glyphPosition.x()));
 
          QTextureGlyphCache::GlyphAndSubPixelPosition glyph(glyphIndexes.at(i), subPixelPosition);
          const QTextureGlyphCache::Coord &c = cache->coords.value(glyph);
