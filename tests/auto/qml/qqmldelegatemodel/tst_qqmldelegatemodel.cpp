@@ -51,6 +51,7 @@ private slots:
     void contextAccessedByHandler();
     void deleteRace();
     void redrawUponColumnChange();
+    void deleteRace();
 };
 
 class AbstractItemModel : public QAbstractItemModel
@@ -212,6 +213,17 @@ void tst_QQmlDelegateModel::redrawUponColumnChange()
     m1.removeColumn(0);
 
     QCOMPARE(item->property("text").toString(), "Coconut");
+}
+
+void tst_QQmlDelegateModel::deleteRace()
+{
+    QQmlEngine engine;
+    QQmlComponent c(&engine, testFileUrl("deleteRace.qml"));
+    QVERIFY2(c.isReady(), qPrintable(c.errorString()));
+    QScopedPointer<QObject> o(c.create());
+    QVERIFY(!o.isNull());
+    QTRY_COMPARE(o->property("count").toInt(), 2);
+    QTRY_COMPARE(o->property("count").toInt(), 0);
 }
 
 QTEST_MAIN(tst_QQmlDelegateModel)
