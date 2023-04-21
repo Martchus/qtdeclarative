@@ -989,9 +989,7 @@ void tst_qquickitem::setParentItem()
 
 void tst_qquickitem::visible()
 {
-    QQuickWindow window;
     QQuickItem *root = new QQuickItem;
-    root->setParentItem(window.contentItem());
 
     QQuickItem *child1 = new QQuickItem;
     child1->setParentItem(root);
