@@ -48,6 +48,8 @@
 #include <private/qqmlirbuilder_p.h>
 #include <QCryptographicHash>
 
+#include <cstdint>
+
 // Efficient implementation that takes advantage of powers of two.
 static inline size_t roundUpToMultipleOf(size_t divisor, size_t x)
 {
