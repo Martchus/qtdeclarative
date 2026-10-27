@@ -17,6 +17,7 @@ set(cpp_sources
     dynamicmeta.h
     enumproblems.h
     enumProperty.h
+    enumShadowing.h
     getOptionalLookup.h
     gadgetwithenum.h
     invisible.h
@@ -72,6 +73,10 @@ set(qml_files
     Dummy2.qml
     EditConstraint.qml
     Enums.qml
+    EnumShadowingUser.qml
+    EnumShadowingMixedDerived.qml
+    EnumShadowingQmlBase.qml
+    EnumShadowingQmlDerived.qml
     FinalProperty.qml
     Foozle.qml
     GetOptionalLookupNonVoidableBase.qml
